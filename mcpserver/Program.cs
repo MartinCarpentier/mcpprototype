@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using QuickstartWeatherServer.Tools;
 using Serilog;
 using System.Net.Http.Headers;
+using TodoMcpServer.Tools;
 
 Log.Logger = new LoggerConfiguration()
            .MinimumLevel.Verbose() // Capture all log levels
@@ -20,16 +21,16 @@ try
     builder.Services.AddSerilog();
 
     // Configure HttpClientFactory for weather.gov API
-    builder.Services.AddHttpClient("WeatherApi", client =>
+    builder.Services.AddHttpClient<TodoTools>("TodoApi", client =>
     {
-        client.BaseAddress = new Uri("https://api.weather.gov");
-        client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("weather-tool", "1.0"));
+        client.BaseAddress = new Uri("http://localhost:3002");
     });
 
     builder.Services.AddMcpServer()
         .WithHttpTransport()
         .WithTools<CalculatorTools>()
         .WithTools<RandomNumberTools>()
+        .WithTools<TodoTools>()
         .WithTools<EchoTool>()
         .WithTools<WeatherTools>();
 
