@@ -28,6 +28,7 @@ try
 
     builder.Services.AddMcpServer()
         .WithHttpTransport()
+        .WithTools<CalculatorTools>()
         .WithTools<RandomNumberTools>()
         .WithTools<EchoTool>()
         .WithTools<WeatherTools>();
